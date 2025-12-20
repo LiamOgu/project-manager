@@ -25,10 +25,10 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 ## ✅ TODO – Avancement du projet
 
 ### 🔹 Setup
-- [ ] Initialiser le projet Node + TypeScript
-- [ ] Configurer Express
+- ✅ Initialiser le projet Node + TypeScript
+- ✅ Configurer Express
 - [ ] Connexion MongoDB propre (singleton)
-- [ ] Variables d’environnement
+- ✅ Variables d’environnement
 
 ---
 
