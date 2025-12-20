@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 
-export interface Tasks {
+export interface Task {
   _id?: ObjectId;
   title: string;
   description: string;

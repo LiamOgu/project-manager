@@ -1,6 +1,6 @@
 import type { ObjectId } from "mongodb";
 
-export interface Projects {
+export interface Project {
   _id?: ObjectId;
   name: string;
   ownerId: ObjectId;
