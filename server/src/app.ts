@@ -1,16 +1,25 @@
 import dotenv from "dotenv";
-import type { Request, Response } from "express";
 import express from "express";
+import { connectToDatabase } from "./db/mongo.ts";
 
 dotenv.config();
+
 const app = express();
+const PORT = process.env.PORT || "3000";
 
-const PORT: string = process.env.PORT || "3000";
+app.use(express.json()); // to parse JSON request bodies
 
-app.get("/", (request: Request, response: Response) => {
-  response.status(200).send("Hello World");
-});
+const startApp = async () => {
+  try {
+    await connectToDatabase();
 
-app.listen(PORT, () => {
-  console.log("Server running at PORT: ", PORT);
-});
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start the application:", error);
+    process.exit(1); // Exit with error code
+  }
+};
+
+startApp();
