@@ -17,6 +17,7 @@
     "mongodb": "^7.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/nodemon": "^1.19.6",

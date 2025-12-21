@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { connectToDatabase } from "./db/mongo.ts";
 import userRoutes from "./routes/userRoutes.ts";
-import { createEmailIndex } from "./services/usersService.ts";
+import { createEmailIndex } from "./utils/indexesUtils.ts";
 
 dotenv.config();
 

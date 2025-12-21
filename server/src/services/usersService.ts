@@ -1,21 +1,12 @@
 import type { ObjectId } from "mongodb";
 import { getDb } from "../db/mongo.ts";
 import type { User, UserInput } from "../types/UserInterface.ts";
+import { passwordHash } from "../utils/passwordUtils.ts";
 
 const getUsersCollection = () => getDb().collection<User>("users");
 
 const USER_PROJECTION = {
   passwordHash: 0,
-};
-
-export const createEmailIndex = async (): Promise<void> => {
-  try {
-    await getUsersCollection().createIndex({ email: 1 }, { unique: true });
-    console.log("Unique index created on email field");
-  } catch (error) {
-    console.error("Error creating email index:", error);
-    throw error;
-  }
 };
 
 const isValidEmail = (email: string): boolean => {
@@ -30,6 +21,7 @@ export const createUser = async (userInput: UserInput): Promise<ObjectId> => {
 
   const userToInsert = {
     ...userInput,
+    passwordHash: await passwordHash(userInput.passwordHash),
     createdAt: new Date(),
   };
   try {

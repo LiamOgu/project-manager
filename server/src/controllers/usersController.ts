@@ -10,9 +10,9 @@ import type { UserInput } from "../types/UserInterface.ts";
 
 export const createUserController = async (req: Request, res: Response) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, passwordHash } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !email || !passwordHash) {
       return res.status(400).json({
         error: "Missing required fields",
       });
@@ -21,13 +21,16 @@ export const createUserController = async (req: Request, res: Response) => {
     const userData: UserInput = {
       username,
       email,
-      passwordHash: password,
+      passwordHash,
     };
 
     const newUserId = await createUser(userData);
 
     return res.status(201).json({ userId: newUserId });
-  } catch (error) {
+  } catch (error: any) {
+    if (error.message === "Email already exists") {
+      return res.status(409).json({ error: error.message });
+    }
     console.error("Error in createUserController:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
