@@ -1,8 +1,12 @@
 import type { ObjectId } from "mongodb";
 
-export interface User {
-  _id?: ObjectId;
+export interface UserInput {
+  username: string;
   email: string;
   passwordHash: string;
+}
+
+export interface User extends UserInput {
+  _id: ObjectId;
   createdAt: Date;
 }
