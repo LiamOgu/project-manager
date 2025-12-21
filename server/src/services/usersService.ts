@@ -105,9 +105,6 @@ export const deleteUser = async (
 ): Promise<{ deletedCount: number }> => {
   try {
     const result = await getUsersCollection().deleteOne({ _id: userId });
-    if (result.deletedCount === 0) {
-      throw new Error("User not found");
-    }
     console.log(`User deleted with ID: ${userId}`);
     return { deletedCount: result.deletedCount };
   } catch (error) {
