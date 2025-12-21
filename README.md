@@ -33,8 +33,8 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 ---
 
 ### 🔹 CRUD de base
-- [ ] Créer un utilisateur
-- [ ] Créer un projet
+- ✅ CRUD pour utilisateur
+- ✅ CRUD pour projet (que Create)
 - [ ] Créer une tâche
 - [ ] Lister les tâches d’un projet
 - [ ] Modifier le statut d’une tâche
@@ -55,7 +55,7 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 - [ ] Validation manuelle des données
 - [ ] Types TypeScript stricts
 - [ ] Gestion centralisée des erreurs
-- [ ] Séparation routes / controllers / services
+- ✅ Séparation routes / controllers / services
 
 ---
 
