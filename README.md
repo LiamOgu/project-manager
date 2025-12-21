@@ -61,3 +61,8 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 
 ## 🎯 Objectif final
 Être à l’aise avec **MongoDB sans ORM**, capable de concevoir, interroger et maintenir une base MongoDB en conditions réelles.
+
+## Ce que j'ai appris jusqu'à maintenant :
+- La différence entre un service et un controller.
+- La création d'index avec node.js
+- les avantages (et les difficultées) d'utiliser typescript
