@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import {
   createUser,
+  deleteUser,
   getAllUsers,
   getUserByEmail,
   getUserById,
@@ -73,18 +74,13 @@ export const getUserByEmailController = async (req: Request, res: Response) => {
 
 export const getUserByIdController = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = new ObjectId(req.params.id);
 
     if (!id) {
       return res.status(400).json({ error: "ID parameter is required" });
     }
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
-
-    const objectId = new ObjectId(id);
-    const user = await getUserById(objectId);
+    const user = await getUserById(id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -99,20 +95,14 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 
 export const updateUserController = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = new ObjectId(req.params.id);
     const { username, email } = req.body;
 
     if (!id) {
       return res.status(400).json({ error: "ID parameter is required" });
     }
 
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
-
-    const objectId = new ObjectId(id);
-
-    const currentUser = await getUserById(objectId);
+    const currentUser = await getUserById(id);
 
     if (!currentUser) {
       return res.status(404).json({ error: "User not found" });
@@ -127,17 +117,14 @@ export const updateUserController = async (req: Request, res: Response) => {
     if (email !== undefined) {
       if (email !== currentUser.email) {
         const existingUser = await getUserByEmail(email);
-        if (
-          existingUser &&
-          existingUser._id.toString() !== objectId.toString()
-        ) {
+        if (existingUser && existingUser._id.toString() !== id.toString()) {
           return res.status(409).json({ error: "Email already exists" });
         }
         updates.email = email;
       }
     }
 
-    const result = await updateUser(objectId, updates);
+    const result = await updateUser(id, updates);
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -158,4 +145,19 @@ export const updateUserController = async (req: Request, res: Response) => {
   }
 };
 
-// export const
+export const deleteUserController = async (req: Request, res: Response) => {
+  try {
+    const id = new ObjectId(req.params.id);
+
+    if (!id) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+
+    await deleteUser(id);
+
+    return res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteUserController:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

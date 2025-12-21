@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createUserController,
+  deleteUserController,
   getAllUsersController,
   getUserByEmailController,
   getUserByIdController,
@@ -14,5 +15,6 @@ router.get("/", getAllUsersController);
 router.get("/id/:id", getUserByIdController);
 router.get("/email/:email", getUserByEmailController);
 router.patch("/id/:id", updateUserController);
+router.delete("/id/:id", deleteUserController);
 
 export default router;
