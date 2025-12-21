@@ -4,7 +4,6 @@ import {
   createUser,
   deleteUser,
   getAllUsers,
-  getUserByEmail,
   getUserById,
   updateUser,
 } from "../services/usersService.ts";
@@ -51,34 +50,9 @@ export const getAllUsersController = async (_: any, res: Response) => {
   }
 };
 
-export const getUserByEmailController = async (req: Request, res: Response) => {
-  try {
-    const email = req.params.email;
-
-    if (!email) {
-      return res.status(400).json({ error: "Email parameter is required" });
-    }
-
-    const user = await getUserByEmail(email);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    return res.status(200).json({ user });
-  } catch (error) {
-    console.error("Error in getUserByEmailController:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
 export const getUserByIdController = async (req: Request, res: Response) => {
   try {
     const id = new ObjectId(req.params.id);
-
-    if (!id) {
-      return res.status(400).json({ error: "ID parameter is required" });
-    }
 
     const user = await getUserById(id);
 
@@ -95,18 +69,10 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 
 export const updateUserController = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(400).json({ error: "ID parameter is required" });
-    }
-
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid ID format" });
-    }
+    const id = new ObjectId(req.params.id);
 
     const updates = req.body;
-    const result = await updateUser(new ObjectId(id), updates);
+    const result = await updateUser(id, updates);
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -124,10 +90,6 @@ export const updateUserController = async (req: Request, res: Response) => {
 export const deleteUserController = async (req: Request, res: Response) => {
   try {
     const id = new ObjectId(req.params.id);
-
-    if (!id) {
-      return res.status(400).json({ error: "Invalid user ID format" });
-    }
 
     const result = await deleteUser(id);
 

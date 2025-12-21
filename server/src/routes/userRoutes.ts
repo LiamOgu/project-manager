@@ -3,18 +3,17 @@ import {
   createUserController,
   deleteUserController,
   getAllUsersController,
-  getUserByEmailController,
   getUserByIdController,
   updateUserController,
 } from "../controllers/usersController.ts";
+import { validateObjectId } from "../middlewares/validateObjectId.ts";
 
 const router = express.Router();
 
 router.post("/", createUserController);
 router.get("/", getAllUsersController);
-router.get("/id/:id", getUserByIdController);
-router.get("/email/:email", getUserByEmailController);
-router.patch("/id/:id", updateUserController);
-router.delete("/id/:id", deleteUserController);
+router.get("/id/:id", validateObjectId("id"), getUserByIdController);
+router.patch("/id/:id", validateObjectId("id"), updateUserController);
+router.delete("/id/:id", validateObjectId("id"), deleteUserController);
 
 export default router;
