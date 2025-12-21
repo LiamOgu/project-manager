@@ -95,52 +95,28 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 
 export const updateUserController = async (req: Request, res: Response) => {
   try {
-    const id = new ObjectId(req.params.id);
-    const { username, email } = req.body;
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json({ error: "ID parameter is required" });
     }
 
-    const currentUser = await getUserById(id);
-
-    if (!currentUser) {
-      return res.status(404).json({ error: "User not found" });
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid ID format" });
     }
 
-    const updates: Partial<UserInput> = {};
-
-    if (username !== undefined) {
-      updates.username = username;
-    }
-
-    if (email !== undefined) {
-      if (email !== currentUser.email) {
-        const existingUser = await getUserByEmail(email);
-        if (existingUser && existingUser._id.toString() !== id.toString()) {
-          return res.status(409).json({ error: "Email already exists" });
-        }
-        updates.email = email;
-      }
-    }
-
-    const result = await updateUser(id, updates);
+    const updates = req.body;
+    const result = await updateUser(new ObjectId(id), updates);
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    return res.status(200).json({
-      message: "User updated successfully",
-      modifiedCount: result.modifiedCount,
-    });
+    return res.status(200).json({ message: "User updated", ...result });
   } catch (error: any) {
-    console.error("Error in updateUserController:", error);
-
     if (error.message === "Email already exists") {
       return res.status(409).json({ error: error.message });
     }
-
     return res.status(500).json({ error: "Internal server error" });
   }
 };
