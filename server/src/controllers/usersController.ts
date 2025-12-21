@@ -5,6 +5,7 @@ import {
   getAllUsers,
   getUserByEmail,
   getUserById,
+  updateUser,
 } from "../services/usersService.ts";
 import type { UserInput } from "../types/UserInterface.ts";
 
@@ -95,3 +96,66 @@ export const getUserByIdController = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const updateUserController = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const { username, email } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ error: "ID parameter is required" });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+
+    const objectId = new ObjectId(id);
+
+    const currentUser = await getUserById(objectId);
+
+    if (!currentUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const updates: Partial<UserInput> = {};
+
+    if (username !== undefined) {
+      updates.username = username;
+    }
+
+    if (email !== undefined) {
+      if (email !== currentUser.email) {
+        const existingUser = await getUserByEmail(email);
+        if (
+          existingUser &&
+          existingUser._id.toString() !== objectId.toString()
+        ) {
+          return res.status(409).json({ error: "Email already exists" });
+        }
+        updates.email = email;
+      }
+    }
+
+    const result = await updateUser(objectId, updates);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      modifiedCount: result.modifiedCount,
+    });
+  } catch (error: any) {
+    console.error("Error in updateUserController:", error);
+
+    if (error.message === "Email already exists") {
+      return res.status(409).json({ error: error.message });
+    }
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// export const
