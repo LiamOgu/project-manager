@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { connectToDatabase } from "./db/mongo.ts";
+import projectRoutes from "./routes/projectRoutes.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import { createEmailIndex } from "./utils/indexesUtils.ts";
 
@@ -17,6 +18,7 @@ const startApp = async () => {
     await createEmailIndex();
 
     app.use("/api/users", userRoutes);
+    app.use("/api/projects", projectRoutes);
 
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}`);
