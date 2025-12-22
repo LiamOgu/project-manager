@@ -97,6 +97,7 @@ export const getTasksByAssigneeId = async (
     const result = await getTasksCollection()
       .find({ assignedTo: assigneeId }, { projection: TASK_PROJECTION })
       .toArray();
+    console.log("Tasks fetched for assigneeId", assigneeId, ":", result);
     return result;
   } catch (error) {
     console.error("Error fetching tasks by assigneeId:", error);

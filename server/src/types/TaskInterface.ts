@@ -4,7 +4,7 @@ export interface TaskInput {
   title: string;
   description: string;
   status: "todo" | "in_progress" | "done";
-  assignedTo?: ObjectId;
+  assignedTo?: ObjectId[];
   projectId: ObjectId;
 }
 

@@ -5,6 +5,8 @@ import {
   deleteTask,
   getAllTasks,
   getTaskById,
+  getTasksByAssigneeId,
+  getTasksByProjectId,
   updateTask,
 } from "../services/tasksService.ts";
 
@@ -15,13 +17,16 @@ export const createTaskController = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
     const projectObjectId = new ObjectId(projectId);
+    const assignedToObjectIds = assignedTo
+      ? assignedTo.map((id: string) => new ObjectId(id))
+      : undefined;
 
     const newTask = await createTask({
       title,
       description,
       status,
       projectId: projectObjectId,
-      assignedTo,
+      assignedTo: assignedToObjectIds,
     });
 
     return res.status(201).json({ taskId: newTask });
@@ -54,6 +59,40 @@ export const getTaskByIdController = async (req: Request, res: Response) => {
     return res.status(200).json({ task });
   } catch (error) {
     console.error("Error in getTaskByIdController:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getTaskByProjectIdController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const projectId = new ObjectId(req.params.projectId);
+    const tasks = await getTasksByProjectId(projectId);
+    if (tasks && tasks.length > 0) {
+      return res.status(200).json({ tasks });
+    }
+    return res.status(200).json({ tasks: [] });
+  } catch (error) {
+    console.error("Error in getTaskByProjectIdController:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getTasksByAssigneeIdController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const assigneeId = new ObjectId(req.params.assigneeId);
+    const tasks = await getTasksByAssigneeId(assigneeId);
+    if (tasks && tasks.length > 0) {
+      return res.status(200).json({ tasks });
+    }
+    return res.status(200).json({ tasks: [] });
+  } catch (error) {
+    console.error("Error in getTasksByAssigneeIdController:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
