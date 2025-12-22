@@ -4,7 +4,6 @@ import type { Project, ProjectInput } from "../types/ProjectInterface.ts";
 
 const PROJECT_PROJECTION = {
   _id: 0,
-  ownerId: 0,
 };
 
 const getProjectsCollection = () => getDb().collection<Project>("projects");
