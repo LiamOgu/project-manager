@@ -1,11 +1,14 @@
 import { ObjectId } from "mongodb";
 
-export interface Task {
-  _id?: ObjectId;
+export interface TaskInput {
   title: string;
   description: string;
   status: "todo" | "in_progress" | "done";
-  projectId: ObjectId;
   assignedTo?: ObjectId;
+  projectId: ObjectId;
+}
+
+export interface Task extends TaskInput {
+  _id: ObjectId;
   createdAt: Date;
 }

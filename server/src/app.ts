@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { connectToDatabase } from "./db/mongo.ts";
 import projectRoutes from "./routes/projectRoutes.ts";
+import taskRoutes from "./routes/taskRoutes.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import {
   createEmailIndex,
@@ -23,6 +24,7 @@ const startApp = async () => {
 
     app.use("/api/users", userRoutes);
     app.use("/api/projects", projectRoutes);
+    app.use("/api/tasks", taskRoutes);
 
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}`);
