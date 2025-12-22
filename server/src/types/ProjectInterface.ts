@@ -6,8 +6,6 @@ export interface ProjectInput {
 }
 
 export interface Project extends ProjectInput {
-  _id?: ObjectId;
-  name: string;
-  ownerId: ObjectId;
+  _id: ObjectId;
   createdAt: Date;
 }

@@ -1,23 +1,22 @@
-import type { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import { getDb } from "../db/mongo.ts";
 import type { Project, ProjectInput } from "../types/ProjectInterface.ts";
 
-const PROJECT_PROJECTION = {
-  _id: 0,
-};
+const PROJECT_PROJECTION = {};
 
 const getProjectsCollection = () => getDb().collection<Project>("projects");
 
 export const createProject = async (
-  project: ProjectInput,
+  projectInput: ProjectInput,
 ): Promise<ObjectId> => {
+  const projectToInsert = {
+    ...projectInput,
+    createdAt: new Date(),
+  };
   try {
-    const projectToInsert = {
-      ...project,
-      createdAt: new Date(),
-    };
-
-    const result = await getProjectsCollection().insertOne(projectToInsert);
+    const result = await getProjectsCollection().insertOne(
+      projectToInsert as any,
+    );
     return result.insertedId;
   } catch (error) {
     console.error("Error inserting project document:", error);
@@ -86,25 +85,18 @@ export const deleteProject = async (
   }
 };
 
-// export const getProjectsByOwnerId = async (
-//   ownerId: ObjectId,
-// ): Promise<Project[]> => {
-//   try {
-//     if (!ownerId) {
-//       throw new Error("ownerId is required");
-//     }
-//     const result = await getProjectsCollection().findOne(
-//       { ownerId },
-//       { projection: PROJECT_PROJECTION },
-//     );
-//     if (!result) {
-//       console.log(`No projects found for ownerId: ${ownerId}`);
-//       return [];
-//     }
-//     console.log(`Fetched ${result.length} projects for ownerId: ${ownerId}`);
-//     return result;
-//   } catch (error) {
-//     console.error("Error fetching projects by ownerId:", error);
-//     throw error;
-//   }
-// };
+export const getProjectsByOwnerId = async (
+  ownerId: ObjectId,
+): Promise<Project[]> => {
+  try {
+    const result = await getProjectsCollection()
+      .find({ ownerId: ownerId }, { projection: PROJECT_PROJECTION })
+      .toArray();
+    console.log("Projects fetched for ownerId", ownerId, ":", result);
+    console.log("Type of ownerId", ownerId, ":", typeof ownerId);
+    return result;
+  } catch (error) {
+    console.error("Error fetching projects by ownerId:", error);
+    throw error;
+  }
+};

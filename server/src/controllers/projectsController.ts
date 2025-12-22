@@ -6,6 +6,7 @@ import {
   deleteProject,
   getAllProjects,
   getProjectById,
+  getProjectsByOwnerId,
   updateProject,
 } from "../services/projectsService.ts";
 
@@ -15,7 +16,9 @@ export const createProjectController = async (req: Request, res: Response) => {
     if (!name || !ownerId) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    const newProject = await createProject({ name, ownerId });
+    const ownerObjectId = new ObjectId(ownerId);
+
+    const newProject = await createProject({ name, ownerId: ownerObjectId });
 
     return res.status(201).json({ projectId: newProject });
   } catch (error) {
@@ -88,4 +91,19 @@ export const deleteProjectController = async (req: Request, res: Response) => {
     console.error("Error in deleteProjectController:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
+};
+
+export const getProjectByOwnerController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const ownerId = new ObjectId(req.params.ownerId);
+    const projects = await getProjectsByOwnerId(ownerId);
+    console.log("Projects found:", projects);
+    if (projects && projects.length > 0) {
+      return res.status(200).json({ projects });
+    }
+    return res.status(200).json({ projects: [] });
+  } catch (error) {}
 };
