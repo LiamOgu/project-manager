@@ -93,7 +93,7 @@ export const deleteProjectController = async (req: Request, res: Response) => {
   }
 };
 
-export const getProjectByOwnerController = async (
+export const getProjectByOwnerIdController = async (
   req: Request,
   res: Response,
 ) => {
