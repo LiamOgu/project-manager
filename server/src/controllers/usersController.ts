@@ -7,7 +7,6 @@ import {
   getUserById,
   updateUser,
 } from "../services/usersService.ts";
-import type { UserInput } from "../types/UserInterface.ts";
 
 export const createUserController = async (req: Request, res: Response) => {
   try {
@@ -19,13 +18,7 @@ export const createUserController = async (req: Request, res: Response) => {
       });
     }
 
-    const userData: UserInput = {
-      username,
-      email,
-      passwordHash,
-    };
-
-    const newUserId = await createUser(userData);
+    const newUserId = await createUser({ username, email, passwordHash });
 
     return res.status(201).json({ userId: newUserId });
   } catch (error: any) {
