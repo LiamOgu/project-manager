@@ -3,7 +3,10 @@ import express from "express";
 import { connectToDatabase } from "./db/mongo.ts";
 import projectRoutes from "./routes/projectRoutes.ts";
 import userRoutes from "./routes/userRoutes.ts";
-import { createEmailIndex } from "./utils/indexesUtils.ts";
+import {
+  createEmailIndex,
+  createProjectNameIndex,
+} from "./utils/indexesUtils.ts";
 
 dotenv.config();
 
@@ -16,6 +19,7 @@ const startApp = async () => {
   try {
     await connectToDatabase();
     await createEmailIndex();
+    await createProjectNameIndex();
 
     app.use("/api/users", userRoutes);
     app.use("/api/projects", projectRoutes);
