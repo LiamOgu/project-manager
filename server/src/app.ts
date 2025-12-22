@@ -6,6 +6,7 @@ import taskRoutes from "./routes/taskRoutes.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import {
   createEmailIndex,
+  createProjectIdIndex,
   createProjectNameIndex,
 } from "./utils/indexesUtils.ts";
 
@@ -21,6 +22,7 @@ const startApp = async () => {
     await connectToDatabase();
     await createEmailIndex();
     await createProjectNameIndex();
+    await createProjectIdIndex();
 
     app.use("/api/users", userRoutes);
     app.use("/api/projects", projectRoutes);
