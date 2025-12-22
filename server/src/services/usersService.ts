@@ -26,7 +26,6 @@ export const createUser = async (userInput: UserInput): Promise<ObjectId> => {
   };
   try {
     const result = await getUsersCollection().insertOne(userToInsert as any);
-    console.log(`User created with ID: ${result.insertedId}`);
     return result.insertedId;
   } catch (error: any) {
     if (error.code === 11000) {
@@ -43,7 +42,6 @@ export const getUserById = async (userId: ObjectId): Promise<User | null> => {
       { _id: userId },
       { projection: USER_PROJECTION },
     );
-    console.log(`User found with ID: ${userId}`);
     return result;
   } catch (error) {
     console.error("Error finding user document:", error);
@@ -69,7 +67,6 @@ export const getAllUsers = async (): Promise<User[]> => {
     const result = await getUsersCollection()
       .find({}, { projection: USER_PROJECTION })
       .toArray();
-    console.log(`${result.length} Users found`);
     return result;
   } catch (error) {
     console.error("Error finding user document:", error);
@@ -86,7 +83,6 @@ export const updateUser = async (
       { _id: userId },
       { $set: updates },
     );
-    console.log(`User updated: ${result.modifiedCount} document(s) modified`);
     return {
       matchedCount: result.matchedCount,
       modifiedCount: result.modifiedCount,
@@ -105,7 +101,6 @@ export const deleteUser = async (
 ): Promise<{ deletedCount: number }> => {
   try {
     const result = await getUsersCollection().deleteOne({ _id: userId });
-    console.log(`User deleted with ID: ${userId}`);
     return { deletedCount: result.deletedCount };
   } catch (error) {
     console.error("Error deleting user document:", error);
