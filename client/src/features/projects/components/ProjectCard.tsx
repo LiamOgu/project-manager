@@ -1,5 +1,3 @@
-import ProjectStatisticBadge from "./ProjectStatisticBadge";
-
 interface ProjectCardProps {
   name: string;
   nbTodoTasks: number;
@@ -17,56 +15,44 @@ function ProjectCard({
   const progress = totalTasks > 0 ? (nbCompletedTasks / totalTasks) * 100 : 0;
 
   return (
-    <div className="card bg-base-100 w-100 shadow-xl hover:shadow-2xl transition-shadow duration-200 border border-base-300">
-      <div className="card-body">
-        <h2 className="card-title text-2xl font-bold mb-4">{name}</h2>
+    <div className="bg-base-100 border border-base-200 drop-shadow-xl rounded-lg p-6 hover:border-base-300 hover:drop-shadow-2xl transition-all">
+      <h3 className="text-lg font-semibold mb-4">{name}</h3>
 
-        {/* Barre de progression */}
-        <div className="mb-4">
-          <div className="flex justify-between text-sm mb-1">
-            <span className="text-base-content/70">Progression</span>
-            <span className="font-semibold">{Math.round(progress)}%</span>
-          </div>
-          <progress
-            className="progress progress-primary w-full"
-            value={progress}
-            max="100"
-          ></progress>
+      {/* Statistiques simples */}
+      <div className="space-y-2 mb-4 text-sm">
+        <div className="flex justify-between">
+          <span className="text-base-content/60">À faire</span>
+          <span className="font-medium">{nbTodoTasks}</span>
         </div>
-
-        {/* Statistiques avec badges */}
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          <ProjectStatisticBadge title="To-do" count={nbTodoTasks} />
-
-          <ProjectStatisticBadge
-            title="In Progress"
-            count={nbInProgressTasks}
-          />
-
-          <ProjectStatisticBadge title="Completed" count={nbCompletedTasks} />
+        <div className="flex justify-between">
+          <span className="text-base-content/60">En cours</span>
+          <span className="font-medium">{nbInProgressTasks}</span>
         </div>
-
-        {/* Actions */}
-        <div className="card-actions justify-end mt-2">
-          <button className="btn btn-primary btn-sm">
-            Détail du projet
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+        <div className="flex justify-between">
+          <span className="text-base-content/60">Terminé</span>
+          <span className="font-medium">{nbCompletedTasks}</span>
         </div>
       </div>
+
+      {/* Barre de progression simple */}
+      <div className="mb-4">
+        <div className="flex justify-between text-xs mb-2">
+          <span className="text-base-content/50">Progression</span>
+          <span className="font-medium">{Math.round(progress)}%</span>
+        </div>
+        <div className="w-full bg-base-200 rounded-full h-1.5">
+          <div
+            className="bg-primary h-1.5 rounded-full transition-all"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Action */}
+      <button className="btn btn-sm btn-ghost w-full justify-between">
+        <span>Voir détails</span>
+        <span>→</span>
+      </button>
     </div>
   );
 }
