@@ -5,6 +5,7 @@ import {
   getAllProjectsController,
   getProjectByIdController,
   getProjectByOwnerIdController,
+  getProjectsWithStatsController,
   updateProjectController,
 } from "../controllers/projectsController.ts";
 import { validateObjectId } from "../middlewares/validateObjectId.ts";
@@ -19,6 +20,7 @@ router.get(
   validateObjectId("ownerId"),
   getProjectByOwnerIdController,
 );
+router.get("/stats", getProjectsWithStatsController);
 router.patch("/id/:id", validateObjectId("id"), updateProjectController);
 router.delete("/id/:id", validateObjectId("id"), deleteProjectController);
 

@@ -100,3 +100,64 @@ export const getProjectsByOwnerId = async (
     throw error;
   }
 };
+
+export const getProjectsWithTaskCounts = async (): Promise<any[]> => {
+  try {
+    const result = await getProjectsCollection()
+      .aggregate([
+        {
+          $lookup: {
+            from: "tasks",
+            localField: "_id",
+            foreignField: "projectId",
+            as: "tasks",
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            ownerId: 1,
+            createdAt: 1,
+            nbTotalTasks: { $size: "$tasks" },
+            nbTodoTasks: {
+              $size: {
+                $filter: {
+                  input: "$tasks",
+                  as: "task",
+                  cond: { $eq: ["$$task.status", "todo"] },
+                },
+              },
+            },
+            nbInProgressTasks: {
+              $size: {
+                $filter: {
+                  input: "$tasks",
+                  as: "task",
+                  cond: { $eq: ["$$task.status", "in_progress"] },
+                },
+              },
+            },
+            nbCompletedTasks: {
+              $size: {
+                $filter: {
+                  input: "$tasks",
+                  as: "task",
+                  cond: { $eq: ["$$task.status", "done"] },
+                },
+              },
+            },
+          },
+        },
+        {
+          $sort: { createdAt: -1 },
+        },
+      ])
+      .toArray();
+
+    return result;
+  } catch (error) {
+    console.error("Error in aggregation:", error);
+    throw error;
+  }
+};

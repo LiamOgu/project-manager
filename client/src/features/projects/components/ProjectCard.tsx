@@ -1,34 +1,32 @@
-import { useProjects } from "../api/useProjects";
-
-interface ProjectCardProps {
-  name: string;
-  nbTodoTasks: number;
-  nbCompletedTasks: number;
-  nbInProgressTasks: number;
-}
+import { isoToFrDateFormat } from "../../../utils/dateFormat";
+import type { Project } from "../types/ProjectStatsInterface";
 
 function ProjectCard({
   name,
+  nbTotalTasks,
   nbTodoTasks,
   nbCompletedTasks,
   nbInProgressTasks,
-}: ProjectCardProps) {
-  const totalTasks = nbTodoTasks + nbCompletedTasks + nbInProgressTasks;
-  const progress = totalTasks > 0 ? (nbCompletedTasks / totalTasks) * 100 : 0;
+  createdAt,
+}: Project) {
+  const progress =
+    nbTotalTasks > 0 ? (nbCompletedTasks / nbTotalTasks) * 100 : 0;
 
-  const { data, isPending, isError, error } = useProjects();
-
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {String(error)}</span>;
-  }
+  console.log("ProjectCard props:", {
+    name,
+    nbTodoTasks,
+    nbInProgressTasks,
+    nbCompletedTasks,
+  });
 
   return (
     <div className="bg-base-100 border border-base-200 drop-shadow-xl rounded-lg p-6 hover:border-base-300 hover:drop-shadow-2xl transition-all">
-      <h3 className="text-lg font-semibold mb-4">{name}</h3>
+      <div className="flex justify-between">
+        <h3 className="text-lg font-semibold mb-4">{name}</h3>
+        <span className="text-md opacity-50">
+          date de création: {isoToFrDateFormat(createdAt)}{" "}
+        </span>
+      </div>
 
       {/* Statistiques simples */}
       <div className="space-y-2 mb-4 text-sm">

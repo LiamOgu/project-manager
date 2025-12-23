@@ -7,6 +7,7 @@ import {
   getAllProjects,
   getProjectById,
   getProjectsByOwnerId,
+  getProjectsWithTaskCounts,
   updateProject,
 } from "../services/projectsService.ts";
 
@@ -106,4 +107,17 @@ export const getProjectByOwnerIdController = async (
     }
     return res.status(200).json({ projects: [] });
   } catch (error) {}
+};
+
+export const getProjectsWithStatsController = async (
+  _: Request,
+  res: Response,
+) => {
+  try {
+    const projects = await getProjectsWithTaskCounts();
+    return res.status(200).json({ projects });
+  } catch (error) {
+    console.error("Error in getProjectsWithStatsController:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };

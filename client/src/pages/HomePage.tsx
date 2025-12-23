@@ -1,19 +1,11 @@
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
-import { useProjects } from "../features/projects/api/useProjects";
+import { useProjectsStats } from "../features/projects/api/useProjectsStats";
 import ProjectCard from "../features/projects/components/ProjectCard";
-
-interface Project {
-  _id: string;
-  name: string;
-  ownerId: string;
-  createdAt: string;
-}
+import type { Project } from "../features/projects/types/ProjectStatsInterface";
 
 export default function HomePage() {
-  const { data } = useProjects();
-
-  console.log(data?.data);
+  const { data, isPending, isError, error } = useProjectsStats();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -37,11 +29,29 @@ export default function HomePage() {
 
           {/* Grid de cartes responsive */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.data.projects.map((project: Project) => (
-              <ProjectCard key={project.name} name={project.name} />
-            ))}
-          </div>
+          {isPending ? (
+            <div className="flex justify-center items-center py-12">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          ) : isError ? (
+            <div className="alert alert-error">
+              <span>Erreur: {String(error)}</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data?.data.projects.map((project: Project) => (
+                <ProjectCard
+                  key={project.name}
+                  name={project.name}
+                  nbTotalTasks={project.nbTotalTasks}
+                  nbInProgressTasks={project.nbInProgressTasks}
+                  nbTodoTasks={project.nbTodoTasks}
+                  nbCompletedTasks={project.nbCompletedTasks}
+                  createdAt={project.createdAt}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
       <Footer />

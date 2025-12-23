@@ -6,9 +6,11 @@ import projectRoutes from "./routes/projectRoutes.ts";
 import taskRoutes from "./routes/taskRoutes.ts";
 import userRoutes from "./routes/userRoutes.ts";
 import {
+  createAssignedToIndex,
   createEmailIndex,
   createProjectIdIndex,
   createProjectNameIndex,
+  createTaskStatusIndex,
 } from "./utils/indexesUtils.ts";
 
 dotenv.config();
@@ -25,6 +27,8 @@ const startApp = async () => {
     await createEmailIndex();
     await createProjectNameIndex();
     await createProjectIdIndex();
+    await createTaskStatusIndex();
+    await createAssignedToIndex();
 
     app.use("/api/users", userRoutes);
     app.use("/api/projects", projectRoutes);

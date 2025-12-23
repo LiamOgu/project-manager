@@ -9,6 +9,7 @@ export const api = axios.create({
 
 export const projectsEndpoints = {
   getAll: () => api.get("/projects"),
+  getAllStats: () => api.get("/projects/stats"),
   getById: (id: string) => api.get(`/projects/id/${id}`),
 };
 

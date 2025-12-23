@@ -35,3 +35,23 @@ export const createProjectIdIndex = async (): Promise<void> => {
     throw error;
   }
 };
+
+export const createTaskStatusIndex = async (): Promise<void> => {
+  try {
+    await getTasksCollection().createIndex({ status: 1 });
+    console.log("Index created on tasks : status field");
+  } catch (error) {
+    console.error("Error creating task status index:", error);
+    throw error;
+  }
+};
+
+export const createAssignedToIndex = async (): Promise<void> => {
+  try {
+    await getTasksCollection().createIndex({ assignedTo: 1 });
+    console.log("Index created on tasks : assignedTo field");
+  } catch (error) {
+    console.error("Error creating assignedTo index:", error);
+    throw error;
+  }
+};
