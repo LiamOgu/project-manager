@@ -1,8 +1,20 @@
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
+import { useProjects } from "../features/projects/api/useProjects";
 import ProjectCard from "../features/projects/components/ProjectCard";
 
+interface Project {
+  _id: string;
+  name: string;
+  ownerId: string;
+  createdAt: string;
+}
+
 export default function HomePage() {
+  const { data } = useProjects();
+
+  console.log(data?.data);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -24,25 +36,11 @@ export default function HomePage() {
           </div>
 
           {/* Grid de cartes responsive */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ProjectCard
-              name="Project 1"
-              nbTodoTasks={3}
-              nbCompletedTasks={1}
-              nbInProgressTasks={4}
-            />
-            <ProjectCard
-              name="Project 2"
-              nbTodoTasks={5}
-              nbCompletedTasks={8}
-              nbInProgressTasks={2}
-            />
-            <ProjectCard
-              name="Project 3"
-              nbTodoTasks={0}
-              nbCompletedTasks={12}
-              nbInProgressTasks={0}
-            />
+            {data?.data.projects.map((project: Project) => (
+              <ProjectCard key={project.name} name={project.name} />
+            ))}
           </div>
         </div>
       </main>

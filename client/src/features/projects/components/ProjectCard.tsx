@@ -1,3 +1,5 @@
+import { useProjects } from "../api/useProjects";
+
 interface ProjectCardProps {
   name: string;
   nbTodoTasks: number;
@@ -13,6 +15,16 @@ function ProjectCard({
 }: ProjectCardProps) {
   const totalTasks = nbTodoTasks + nbCompletedTasks + nbInProgressTasks;
   const progress = totalTasks > 0 ? (nbCompletedTasks / totalTasks) * 100 : 0;
+
+  const { data, isPending, isError, error } = useProjects();
+
+  if (isPending) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {String(error)}</span>;
+  }
 
   return (
     <div className="bg-base-100 border border-base-200 drop-shadow-xl rounded-lg p-6 hover:border-base-300 hover:drop-shadow-2xl transition-all">

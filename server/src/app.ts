@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { connectToDatabase } from "./db/mongo.ts";
@@ -15,6 +16,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || "3000";
 
+app.use(cors());
 app.use(express.json()); // to parse JSON request bodies
 
 const startApp = async () => {
