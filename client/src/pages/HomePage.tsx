@@ -2,7 +2,7 @@ import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import { useProjectsStats } from "../features/projects/api/useProjectsStats";
 import ProjectCard from "../features/projects/components/ProjectCard";
-import type { Project } from "../features/projects/types/ProjectStatsInterface";
+import type { ProjectStatsInterface } from "../features/projects/types/ProjectStatsInterface";
 
 export default function HomePage() {
   const { data, isPending, isError, error } = useProjectsStats();
@@ -41,9 +41,10 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data?.data.projects.map((project: Project) => (
+              {data?.data.projects.map((project: ProjectStatsInterface) => (
                 <ProjectCard
                   key={project.name}
+                  _id={project._id}
                   name={project.name}
                   nbTotalTasks={project.nbTotalTasks}
                   nbInProgressTasks={project.nbInProgressTasks}

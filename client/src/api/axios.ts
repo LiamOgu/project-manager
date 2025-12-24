@@ -13,6 +13,11 @@ export const projectsEndpoints = {
   getById: (id: string) => api.get(`/projects/id/${id}`),
 };
 
-export const tasksEndpoints = {};
+export const tasksEndpoints = {
+  getAll: () => api.get("/tasks"),
+  getById: (id: string) => api.get(`/tasks/id/${id}`),
+  getAllByProjectId: (projectId: string) =>
+    api.get(`/tasks/projectId/${projectId}`),
+};
 
 export const usersEndpoints = {};

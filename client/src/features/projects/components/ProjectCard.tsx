@@ -1,23 +1,18 @@
+import { Link } from "react-router";
 import { isoToFrDateFormat } from "../../../utils/dateFormat";
-import type { Project } from "../types/ProjectStatsInterface";
+import type { ProjectStatsInterface } from "../types/ProjectStatsInterface";
 
 function ProjectCard({
+  _id,
   name,
   nbTotalTasks,
   nbTodoTasks,
   nbCompletedTasks,
   nbInProgressTasks,
   createdAt,
-}: Project) {
+}: ProjectStatsInterface) {
   const progress =
     nbTotalTasks > 0 ? (nbCompletedTasks / nbTotalTasks) * 100 : 0;
-
-  console.log("ProjectCard props:", {
-    name,
-    nbTodoTasks,
-    nbInProgressTasks,
-    nbCompletedTasks,
-  });
 
   return (
     <div className="bg-base-100 border border-base-200 drop-shadow-xl rounded-lg p-6 hover:border-base-300 hover:drop-shadow-2xl transition-all">
@@ -59,10 +54,13 @@ function ProjectCard({
       </div>
 
       {/* Action */}
-      <button className="btn btn-sm btn-ghost w-full justify-between">
+      <Link
+        to={`/project?id=${_id}`}
+        className="btn btn-sm btn-ghost w-full justify-between"
+      >
         <span>Voir détails</span>
         <span>→</span>
-      </button>
+      </Link>
     </div>
   );
 }

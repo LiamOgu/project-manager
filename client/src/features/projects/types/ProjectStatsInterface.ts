@@ -1,4 +1,5 @@
-export interface Project {
+export interface ProjectStatsInterface {
+  _id: string;
   name: string;
   nbTotalTasks: number;
   nbInProgressTasks: number;
