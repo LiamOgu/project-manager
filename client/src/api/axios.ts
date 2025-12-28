@@ -11,7 +11,8 @@ export const projectsEndpoints = {
   getAll: () => api.get("/projects"),
   getAllStats: () => api.get("/projects/stats"),
   getById: (id: string) => api.get(`/projects/id/${id}`),
-  Create: (data: { name: string }) => api.post("/projects", data),
+  Create: (data: { name: string; ownerId: string }) =>
+    api.post("/projects", data),
 };
 
 export const tasksEndpoints = {
