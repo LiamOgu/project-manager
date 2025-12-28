@@ -54,7 +54,6 @@ export function CreateTaskModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Nouvelle Tâche">
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Champ Titre */}
         <fieldset className="fieldset mb-4">
           <legend className="fieldset-legend">Titre de la tâche</legend>
           <input
@@ -76,7 +75,6 @@ export function CreateTaskModal({
           )}
         </fieldset>
 
-        {/* Champ Description */}
         <fieldset className="fieldset mb-4">
           <legend className="fieldset-legend">Description</legend>
           <textarea
@@ -87,7 +85,6 @@ export function CreateTaskModal({
           />
         </fieldset>
 
-        {/* Champ Status */}
         <fieldset className="fieldset mb-4">
           <legend className="fieldset-legend">Statut</legend>
           <select
