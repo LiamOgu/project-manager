@@ -11,6 +11,7 @@ export const projectsEndpoints = {
   getAll: () => api.get("/projects"),
   getAllStats: () => api.get("/projects/stats"),
   getById: (id: string) => api.get(`/projects/id/${id}`),
+  Create: (data: { name: string }) => api.post("/projects", data),
 };
 
 export const tasksEndpoints = {
@@ -18,6 +19,12 @@ export const tasksEndpoints = {
   getById: (id: string) => api.get(`/tasks/id/${id}`),
   getAllByProjectId: (projectId: string) =>
     api.get(`/tasks/projectId/${projectId}`),
+  Create: (data: {
+    title: string;
+    description: string;
+    status: string;
+    projectId: string;
+  }) => api.post("/tasks", data),
 };
 
 export const usersEndpoints = {};

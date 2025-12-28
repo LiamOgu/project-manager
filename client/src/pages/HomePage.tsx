@@ -1,3 +1,4 @@
+import Button from "../components/common/Button";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import { useProjectsStats } from "../features/projects/api/useProjectsStats";
@@ -17,7 +18,7 @@ export default function HomePage() {
           <p className="text-base-content/60 mb-8">
             Gérez vos projets simplement
           </p>
-          <button className="btn btn-primary">Nouveau projet</button>
+          <Button text="Nouveau projet" />
         </div>
 
         {/* Projects Section */}

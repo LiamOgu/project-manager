@@ -1,14 +1,18 @@
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
+import Button from "../components/common/Button";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import { useProjectById } from "../features/projects/api/useProjectById";
 import { useTasksByProject } from "../features/tasks/api/useTasksByProject";
 import TaskCard from "../features/tasks/components/TaskCard";
 import type { TaskCardInterface } from "../features/tasks/types/TasksInterface";
+import { CreateTaskModal } from "../modals/CreateTaskModal";
 
 function ProjectDetailsPage() {
   const [searchParams] = useSearchParams();
   const projectId = searchParams.get("id");
+  const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
 
   const { name } = useProjectById(projectId || "").data?.data.project || {};
   const projectName = name || "Projet";
@@ -43,8 +47,16 @@ function ProjectDetailsPage() {
           <p className="text-base-content/60 mb-8">
             Gérez vos tâches simplement
           </p>
-          <button className="btn btn-primary">Nouvelle tâche</button>
+          <div className="" onClick={() => setIsCreateTaskOpen(true)}>
+            <Button text="Nouvelle tâche" />
+          </div>
+          <CreateTaskModal
+            isOpen={isCreateTaskOpen}
+            onClose={() => setIsCreateTaskOpen(false)}
+            projectId={projectId || ""}
+          />
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Colonne Todo */}
           <div className="flex flex-col">
