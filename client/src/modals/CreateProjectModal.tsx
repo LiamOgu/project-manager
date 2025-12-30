@@ -80,7 +80,7 @@ export function CreateProjectModal({
             Annuler
           </button>
           <button type="submit" className="btn btn-primary">
-            Créer la tâche
+            Créer le projet
           </button>
         </div>
       </form>

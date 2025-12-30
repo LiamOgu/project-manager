@@ -92,7 +92,7 @@ export function CreateTaskModal({
             className="select select-bordered w-full"
           >
             <option value="todo">Todo</option>
-            <option value="in-progress">In progress</option>
+            <option value="in_progress">In progress</option>
             <option value="done">Done</option>
           </select>
         </fieldset>
