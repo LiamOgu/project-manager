@@ -35,25 +35,25 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 ### 🔹 CRUD de base
 - ✅ CRUD pour utilisateur
 - ✅ CRUD pour projet (que Create)
-- [ ] Créer une tâche
-- [ ] Lister les tâches d’un projet
-- [ ] Modifier le statut d’une tâche
-- [ ] Supprimer une tâche
+- ✅ Créer une tâche
+- ✅ Lister les tâches d’un projet
+- ✅ Modifier le statut d’une tâche
+- ✅ Supprimer une tâche
 
 ---
 
 ### 🔹 MongoDB avancé
 - [ ] Pagination des tâches
-- [ ] Index sur `projectId`
-- [ ] Aggregation : nombre de tâches par status
-- [ ] Aggregation : projets avec nombre total de tâches
-- [ ] `$lookup` : tâche + utilisateur assigné
+- ✅ Index sur `projectId`
+- ✅ Aggregation : nombre de tâches par status
+- ✅ Aggregation : projets avec nombre total de tâches
+- ✅ `$lookup` : tâche + utilisateur assigné
 
 ---
 
 ### 🔹 Qualité & propreté
 - [ ] Validation manuelle des données
-- [ ] Types TypeScript stricts
+- ✅ Types TypeScript stricts
 - [ ] Gestion centralisée des erreurs
 - ✅ Séparation routes / controllers / services
 
@@ -62,7 +62,3 @@ Objectif : pratiquer MongoDB “à la main” (ObjectId, références, indexes, 
 ## 🎯 Objectif final
 Être à l’aise avec **MongoDB sans ORM**, capable de concevoir, interroger et maintenir une base MongoDB en conditions réelles.
 
-## Ce que j'ai appris jusqu'à maintenant :
-- La différence entre un service et un controller.
-- La création d'index avec node.js
-- les avantages (et les difficultées) d'utiliser typescript
